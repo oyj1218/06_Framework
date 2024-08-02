@@ -52,16 +52,20 @@
                         <form action="/member/login" method="POST" id="loginFrm">
                             <fieldset class="id-pw-area">
                                 <section>
-                                    <input type="text" name="memberEmail" placeholder="이메일" autocomplete="off">
+                                    <input type="text" name="memberEmail" placeholder="이메일" autocomplete="off"
+                                    value="${cookie.saveId.value}">
                                     <input type="password" name="memberPw" placeholder="비밀번호">                  
                                 </section>
                                 <section>
                                     <button>로그인</button>
                                 </section>
                             </fieldset>
-
+                            
                             <label>
-                                <input type="checkbox" name="saveId"> 아이디 저장
+                            	<c:if test="${!empty cookie.saveId.value}">
+                            		<c:set var="save" value="checked"/>
+                            	</c:if>
+                                <input type="checkbox" name="saveId" ${save}> 아이디 저장
                             </label>
 
                             <article class="signup-find-area">

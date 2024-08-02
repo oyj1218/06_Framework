@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+
+   <!--SqlSessionTemplate생성시적용될설정작성부분 -->
+   <settings>
+      <!--
+         insert 또는 update에사용되는값중 null이있을경우에대한설정 
+         해당설정이없을경우-> SQL 구문에null 포함되어있다는 오류발생. 
+         해상설정이있을경우-> 오류를발생시키지않고 NULL값을컬럼에대입 
+         단, NOT NULL 제약조건이없는컬럼에만가능함. 
+         ** value설정시 NULL은 반드시대문자로작성(소문자null은오류가발생함)
+       -->
+      <setting name="jdbcTypeForNull" value="NULL" />
+   </settings>
+   
+   <!--별칭작성부분 -->
+   <!--DTO클래스의패키지명+ 클래스명작성하는것이불편하기때문에짧은별칭부여 -->
+   <typeAliases>
+      <typeAlias type="edu.kh.project.member.model.dto.Member" alias="Member" />
+   </typeAliases>
+   
+   <!--mapper 파일(SQL 작성되는파일) 위치등록부분 -->
+   <mappers>
+      <mapper resource="/mappers/member-mapper.xml" />
+   </mappers>
+
+</configuration>
