@@ -87,4 +87,22 @@
 		AND MEMBER_EMAIL = #{memberEmail}
 	</select>
 	
+	<!--
+  		insert, update, delete와 같은 DML 구문은
+  		수행 결과가 항상 성공한 행의 개수(int 자료형)로 고정되어 있음
+  		-> resultType을 작성하지 않는다! (항상 int니까)
+  	-->
+  	
+  	<!-- 회원 가입 -->		<!-- mybatis-config.xml에 지정된 별칭 -->
+	<insert id="signUp" parameterType="Member">
+		INSERT INTO "MEMBER"
+		VALUES(SEQ_MEMBER_NO.NEXTVAL
+			, #{memberEmail}
+			, #{memberPw}
+			, #{memberNickname}
+			, #{memberTel}
+			, #{memberAddress}
+			, NULL, DEFAULT, DEFAULT, DEFAULT)
+  	</insert>
+	
 </mapper>
