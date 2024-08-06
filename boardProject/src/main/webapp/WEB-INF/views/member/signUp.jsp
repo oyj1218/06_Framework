@@ -139,8 +139,6 @@
                 </div>
 
 
-
-
                 <button id="signUpBtn">가입하기</button>
             </form>
         </section>

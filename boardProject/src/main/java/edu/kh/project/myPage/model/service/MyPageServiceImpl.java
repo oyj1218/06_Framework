@@ -1,6 +1,7 @@
 package edu.kh.project.myPage.model.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,10 @@ public class MyPageServiceImpl implements MyPageService {
 	@Autowired // MyPageDAO 의존성 주입(DI)
 	private MyPageDAO dao;
 
+	
+	@Autowired
+	private BCryptPasswordEncoder bcrypt;
+	
 	// 스프링에서는 트랜잭션을 처리할 방법을 지원해 줌 (코드 기반, 선언적)
 	
 	// 1) <tx:advice> -> AOP를 이용한 방식(XML에 작성)
@@ -33,4 +38,45 @@ public class MyPageServiceImpl implements MyPageService {
 	public int updateInfo(Member updateMember) {
 		return dao.updateInfo(updateMember);
 	}
+	
+	// 비밀번호 변경 서비스
+	@Override
+	public int changePw(String currentPw, String newPw, int memberNo) {
+		
+		
+		// 1. 현재 비밀번호, DB에 저장된 비밀번호 비교
+		
+		// 1) 회원번호가 일치하는 MEMBER 테이블의 MEMBER_PW 조회
+		String encPw = dao.selectEncPw(memberNo);
+		
+		// 2) 비밀번호가 같으면 비밀번호 수정 진행 -> 결과 반환
+		// bcrypt.matches(평문(currentPw), 암호문(encPw))
+		if(bcrypt.matches(currentPw, encPw)) { // 비밀번호가 일치하면
+			
+			// 보내줄 때도 암호화로 넘어줘야하니깐, bcrypt.encode 사용
+			// sql문 확인하기
+			/* UPDATE MEMBER SET
+			MEMBER_PW = #{memberPw}
+			WHERE MEMBER_NO = #{memberNo} */
+			return dao.changePw(bcrypt.encode(newPw), memberNo);
+		}
+		else {
+			
+		}
+		// 3) 비밀번호가 일치하지 않으면 0 반환
+		return 0;
+	}
+
+	// 회원 탈퇴 서비스
+	@Transactional(rollbackFor = {Exception.class})
+	@Override
+	public int secession(String memberPw, int memberNo)  {
+		String encPw = dao.selectEncPw(memberNo);
+		
+		if(bcrypt.matches(memberPw, encPw)) { // 비밀번호가 일치하면
+			return dao.secession(memberNo);
+		}
+		return 0;
+	}
+	
 }
