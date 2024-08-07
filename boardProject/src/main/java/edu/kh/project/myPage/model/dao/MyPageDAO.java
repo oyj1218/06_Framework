@@ -13,6 +13,7 @@ public class MyPageDAO {
 	// -> root-context.xml에 <bean> 작성됨
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	// 
 
 	/** 회원 정보 수정 DAO
 	 * @param updateMember
@@ -62,6 +63,7 @@ public class MyPageDAO {
 	 * @return result
 	 */
 	public int secession(int memberNo) {
+		// sqlSessionTemplate : 마이바티스 + DBCP + close 자동 + 트랜잭션처리
 		return sqlSession.update("myPageMapper.secession", memberNo);
 	}
 	

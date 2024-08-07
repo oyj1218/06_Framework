@@ -177,6 +177,9 @@
             }).open();
         }
     </script>
+    
+    <!--  member.js 추가 -->
+    <script src="/resources/js/signUp/signUp.js"></script>
 
 </body>
 </html>

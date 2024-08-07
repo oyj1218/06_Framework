@@ -163,6 +163,15 @@ public class MyPageController {
 			, SessionStatus status
 			, HttpServletResponse resp) {
 		
+		// --------- 매개변수 설명 ----------
+		// String memberPw : 입력한 비밀번호
+		// @SessionAttribute("loginMember") Member loginMember : 로그인한 회원
+		// SessionStatus status : 세션 관리 객체
+		// RedirectAttributes ra : 라다이렉트 시 request scope 전달
+		// HttpServletResponse resp  : 서버 -> 클라이언트 응답하는 방법 제공 객체
+		// ------------------------------
+		
+		
 		// 1. 로그인한 회원의 회원 번호 얻어오기
 		int memberNo = loginMember.getMemberNo();
 		
@@ -185,12 +194,16 @@ public class MyPageController {
 			message = "탈퇴되었습니다.";
 			path += "/";
 			
+			// 여기서 status는 세션 상태 관리 객체, 로그아웃 할 때 배운 것
+			// 추가 정보 : status.setComplete()는 모든 정보를 한번에 없앨 때 사용한다
+			// 즉, 탈퇴할 때 사용하기 좋음
 			status.setComplete();
 			
+			// 같은 쿠키가 이미 존재한다면 덮어쓰기 됨
 			Cookie cookie = new Cookie("saveId", "");
-			cookie.setMaxAge(0); 
-			cookie.setPath("/"); 
-			resp.addCookie(cookie);
+			cookie.setMaxAge(0); // 0초 동안 유지 -> 삭제
+			cookie.setPath("/"); // 요청 시 쿠키가 첨부되는 경로 
+			resp.addCookie(cookie); // 응답 객체를 통해서 클라이언트에게 전달
 		}
 		else {
 			// 4. 탈퇴 실패 시

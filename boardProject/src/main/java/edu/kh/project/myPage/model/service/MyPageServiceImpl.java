@@ -71,9 +71,14 @@ public class MyPageServiceImpl implements MyPageService {
 	@Transactional(rollbackFor = {Exception.class})
 	@Override
 	public int secession(String memberPw, int memberNo)  {
+		
+		// 1. 회원 정보가 일치하는 회원의 비밀번호 조회
 		String encPw = dao.selectEncPw(memberNo);
 		
+		// 2. 비밀번호 일치하면
 		if(bcrypt.matches(memberPw, encPw)) { // 비밀번호가 일치하면
+			
+			// 회원 탈퇴 진행(MEMBER_DEL_FL -> 'Y'로 변경
 			return dao.secession(memberNo);
 		}
 		return 0;
