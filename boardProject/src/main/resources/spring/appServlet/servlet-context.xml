@@ -40,7 +40,18 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<!-- base-package 이하에 작성된 @Component와 자식 어노테이션(@Controller, @Service, @Repository)이 붙은
+   <interceptors>
+      <interceptor>
+         
+         <!-- 인터셉터가 동작할 url패턴 -->
+         <mapping path="/**"/>
+         <beans:bean id="boardTypeInterceptor" class="edu.kh.project.common.interceptor.BoardTypeInterceptor">
+         </beans:bean>
+         
+      </interceptor>      
+   </interceptors>
+	
+	<!-- base-package 이하S에 작성된 @Component와 자식 어노테이션(@Controller, @Service, @Repository)이 붙은
 		  클래스를 찾아서 Bean(Spring 관리하는 객체)으로 등록 -->
 	<context:component-scan base-package="edu.kh.project" />
 	

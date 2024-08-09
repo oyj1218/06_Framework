@@ -31,7 +31,21 @@
 			<scope>provided</scope>
 		</dependency>
 
-
+		<!-- 이메일 인증 -->
+      <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+      <dependency>
+         <groupId>javax.mail</groupId>
+         <artifactId>mail</artifactId>
+         <version>1.4.7</version>
+      </dependency>
+      
+      <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+      <dependency>
+         <groupId>org.springframework</groupId>
+         <artifactId>spring-context-support</artifactId>
+         <version>${org.springframework-version}</version>
+      </dependency>
+      
 		<!-- 오라클 JDBC 드라이버 -->
 		<!-- https://mvnrepository.com/artifact/com.oracle.database.jdbc/ojdbc11 -->
 		<dependency>
@@ -95,6 +109,14 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>5.7.1</version>
+		</dependency>
+		
+		<!-- jackson-databind -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.14.2</version>
 		</dependency>
 
 

@@ -62,6 +62,7 @@ public class MemberController {
 		// 파라미터 전달 방법 1 : HttpServletRequest를 이용
 		// -> Controller 메소드의 매개변수로 HttpServletRequest 작성
 
+	
 		String inputEmail = req.getParameter("inputEmail");
 		System.out.println("inputEmail: " + inputEmail);
 

@@ -2,6 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="ajaxMapper">
 
+		<resultMap type="Member" id="member_rm">
+	   
+	      <!-- DB의 기본 키(복합키면 여러 개 작성) -->
+	      <id property="memberNo" column="MEMBER_NO" />
+	
+	      <!-- DB의 일반 컬럼들 -->
+	      <result property="memberEmail" column="MEMBER_EMAIL" />
+	      <result property="memberPw" column="MEMBER_PW" />
+	      <result property="memberNickname" column="MEMBER_NICKNAME" />
+	      <result property="memberTel" column="MEMBER_TEL" />
+	      
+	      <result property="memberAddress" column="MEMBER_ADDR" />
+	      
+	      <result property="profileImage" column="PROFILE_IMG" />
+	      <result property="enrollDate" column="ENROLL_DATE" />
+	      <result property="memberDeleteFlag" column="MEMBER_DEL_FL" />
+	      <result property="authority" column="AUTHORITY" />
+	   </resultMap>
+	   
+	   <!-- 이것만 쓴다고 실행되지 않는다. mybatis에서 별칭을 써줘야 한다 -->
+
 	<!-- 이메일로 닉네임 조회 -->
 	<select id="selectNickname" parameterType="string" resultType="string">
 		SELECT MEMBER_NICKNAME
@@ -10,11 +31,53 @@
 		AND MEMBER_DEL_FL = 'N'
 	</select>
 	
-	<!-- 닉네임으로 전화번호 조회 -->
-	<select id="selectMemberforTel" parameterType="string" resultType="string">
+	<!-- parameterType : 전달 받은 파라미터의 자료형 작성(선택사항)
+								-> 생략 시 TypeHandler가 알아서 처리 -->
+	<!-- 닉네임으로 전화번호 조회 -->						
+	<select id="selectMemberTel" resultType="string">
 		SELECT MEMBER_TEL
 		FROM MEMBER
 		WHERE MEMBER_NICKNAME = #{nickname}
 		AND MEMBER_DEL_FL = 'N'
 	</select>
-</mapper>  
+	
+	<!-- 이메일 중복 검사 -->						
+	<select id="dupCheckEmail" resultType="_int">
+		SELECT COUNT(*) 
+		FROM MEMBER
+		WHERE MEMBER_EMAIL = #{email}
+		AND MEMBER_DEL_FL = 'N'	
+	</select>
+	
+		<!-- 닉네임 중복 검사 -->		
+		<!-- 추가정보 : parameterType는 생략 가능인데 이 생략가능은 insert, update, delete 등 모두 상관없이 생략 가능하다 -->		
+		<!--  출처 : https://hoit1302.tistory.com/71	-->
+	<select id="dupCheckNickname" resultType="_int">
+		SELECT COUNT(*) 
+		FROM MEMBER
+		WHERE MEMBER_NICKNAME = #{NICKNAME}
+		AND MEMBER_DEL_FL = 'N'	
+	</select>
+	
+	<!-- 이메일로 회원 정보 조회 -->
+	<select id="selectMember" resultMap="member_rm">
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NICKNAME, MEMBER_TEL,
+		        NVL(MEMBER_ADDR, '미작성') MEMBER_ADDR,
+		        TO_CHAR(ENROLL_DATE, 'YYYY"년" MM"월" DD"일" HH24"시" MI"분" SS"초"') ENROLL_DATE
+		FROM MEMBER
+		WHERE MEMBER_EMAIL = #{email}
+		AND MEMBER_DEL_FL = 'N'
+	</select>
+	
+	<!-- 이메일 일부로 회원 정보 조회 -->
+	<select id="selectMemberList" resultMap="member_rm">
+		SELECT MEMBER_NO, MEMBER_EMAIL, MEMBER_NICKNAME
+		FROM MEMBER
+		WHERE MEMBER_EMAIL LIKE '%${input}%'
+		AND MEMBER_DEL_FL = 'N'
+	</select>
+	
+	<!-- 만약에 #을 사용하고 싶다면 '%' || 'user' || '%' -->
+	
+	
+</mapper>
