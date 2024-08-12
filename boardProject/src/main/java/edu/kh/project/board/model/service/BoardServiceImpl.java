@@ -40,11 +40,11 @@ public class BoardServiceImpl implements BoardService {
 		// 현재 페이지 : pagination.currentPage
 		// 게시글 몇 개 : pagination.limit
 		// 현재 페이지 + 게시글 몇 개 = 모두 다 pagination 안에 있으니깐 한번에 넘겨주기
-		List<Board> boardList = dao.selectBoardList(boardCode, pagination);
+		List<Board> boardList = dao.selectBoardList(pagination, boardCode);
 		// 여러개이니깐 List, 타입제한 Board
 
 		// 4. pagination, boardList를 Map에 담아서 반환
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> map = new HashMap<>();
 		map.put("pagination", pagination);
 		map.put("boardList", boardList);
 

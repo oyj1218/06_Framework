@@ -31,7 +31,7 @@ public class BoardDAO {
 	 * @return
 	 */
 	public int getListCount(int boardCode) {
-		return sqlSession.selectOne("boardMapper.getListCount");
+		return sqlSession.selectOne("boardMapper.getListCount", boardCode);
 	}
 
 	/**
@@ -40,24 +40,27 @@ public class BoardDAO {
 	 * @param pagination
 	 * @return boardList
 	 */
-	public List<Board> selectBoardList(int boardCode, Pagination pagination) {
-		
+	public List<Board> selectBoardList(Pagination pagination, int boardCode) {
 		// RowBounds 객체
 		// - 마이바티스에서 페이징처리를 위해서 제공하는 객체
 		// - offset 만큼 건너 뛰고 그 다음 지정된 행 개수(limit) 만큼 조회
 		
-		// 1) offset 계산 
-		int offset = (pagination.getCurrentPage()-1) * pagination.getLimit();
+		
+		// 1) offset 계산
+		int offset
+		= (pagination.getCurrentPage() - 1) * pagination.getLimit();
 		
 		// 2) RowBounds 객체 생성
 		RowBounds rowBounds = new RowBounds(offset, pagination.getLimit());
 		// 얼마만큼 건너뛸지, 얼마만큼 막을지 나온다
 		
-		// 3) selectList("namespace.id값", 파라미터, RowBounds)
+		// 3) selectList("namespace.id", 파라미터, RowBounds)
 		// 이때 pagination 파라미터는? 굳이 넘겨줄 필요 없기에 안 쓴다
 		return sqlSession.selectList("boardMapper.selectBoardList", boardCode, rowBounds);
-	}
 
+	}
+		
+		
 	/** 게시글 상세 조회
 	 * @param map
 	 * @return board
@@ -73,6 +76,7 @@ public class BoardDAO {
 	public Board selectImageList(Map<String, Object> map) {
 		return sqlSession.selectOne("boardMapper.selectImageList", map);
 	}
+
 	
 
 }

@@ -2,13 +2,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"  %>
 
 
-
+${map.pagination}
 <%-- map에 저장된 값들을 각각 변수에 저장 --%>
 <c:set var="pagination" value="${map.pagination}"/>
 <c:set var="boardList" value="${map.boardList}"/>
+
+<c:forEach items="${boardTypeList}" var="boardType">
+    <c:if test="${boardType.BOARD_CODE == boardCode}">
+        <c:set var="boardName" value="${boardType.BOARD_NAME}"/>
+    </c:if>
+</c:forEach>
+
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,20 +31,7 @@
         
         <section class="board-list">
 
-            <%-- 방법1 --%>
-            <c:forEach var="boardType"  items="${boardTypeList}">
-                <c:if test="${boardType.BOARD_CODE==boardCode}">
-                    <h1 class="board-name">${boardType.BOARD_NAME}</h1>
-                </c:if>
-            </c:forEach>
-
-            <%-- 방법2 --%>
-            ${boardTypeList[boardCode-1].BOARD_NAME}
-
-            <%-- ${boardCode} : @PathVariable로 request scope에 추가된값 --%>
-
-
-         
+            <h1 class="board-name">${boardTypeList[boardCode-1].BOARD_NAME}</h1>
 
             <div class="list-wrapper">
                 <table class="list-table">
@@ -56,7 +49,6 @@
 
                     <tbody>
                          <!-- 게시글 목록 조회 결과가 비어있다면 -->
-                  <!-- 게시글 목록 조회 결과가 있다면 -->
                         <c:choose>
                             <c:when test="${empty boardList}">
                                 <tr>
@@ -64,31 +56,34 @@
                                 </tr>
                             </c:when>
                             <c:otherwise>
-
-                           
-                                <c:forEach var="item" items="${boardList}">
+                                <c:forEach var="board" items="${boardList}">
+                              <!-- 게시글 목록 조회 결과가 있다면 -->
                                     <tr>
-                                        
-                                        <td>${item.boardNo}</td>
+                                        <td>${board.boardNo}</td>
                                         <td> 
-                                            <c:if test="${!empty item.thumbnail}">
-                                                <img class="list-thumbnail" src="${item.thumbnail}">
-                                            </c:if>
-                                            <a href="/board/${boardCode}/${item.boardNo}?cp=${pagination.currentPage}">${item.boardTitle}[${item.commentCount}]</a>          
+                                            <!-- 썸네일이 있을 경우 -->
+                                            <c:choose>
+                                                <c:when test="${!empty board.thumbnail}">
+                                                    <img class="list-thumbnail" src="${board.thumbnail}">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <%-- <img class="list-thumbnail" src="https://via.placeholder.com/50x30"> --%>
+                                                </c:otherwise>
+                                            </c:choose>
+
+                                            <%-- ${boardCode} : @PathVariable로 request scope에 추가된 값 --%>
+                                            <a href="/board/${boardCode}/${board.boardNo}?cp=${pagination.currentPage}">${board.boardTitle}</a>   
+                                            [${board.commentCount}]                     
                                         </td>
-                                        <td>${item.memberNickname}</td>
-                                        <td>${item.boardCreateDate}</td>
-                                        <td>${item.readCount}</td>
-                                        <td>${item.likeCount}</td>
+                                        <td>${board.memberNickname}</td>
+                                        <td>${board.boardCreateDate}</td>
+                                        <td>${board.readCount}</td>
+                                        <td>${board.likeCount}</td>
                                     </tr>
-
-                               </c:forEach>    
-
-
+                                
+                                </c:forEach>
                             </c:otherwise>
-
                         </c:choose>
-
 
                     </tbody>
                 </table>
@@ -108,47 +103,44 @@
 
                 <ul class="pagination">
                 
-                    <!-- 첫 페이지로 이동 -->
+                   <!-- 첫 페이지로 이동 : ' << ' -->
+                    <!-- 각 boardCode의 cp 1로 이동 (고정시켜줌) -->
                     <li><a href="/board/${boardCode}?cp=1">&lt;&lt;</a></li>
 
-                    <!-- 이전 목록 마지막 번호로 이동 -->
+                    <!-- 이전 목록 마지막 번호로 이동 : ' < ' -->
+                    <!-- 각 boardCode의 cp의 이전 페이지로 이동 -->
                     <li><a href="/board/${boardCode}?cp=${pagination.prevPage}">&lt;</a></li>
 
                
                     <!-- 특정 페이지로 이동 -->
-                 
-                 <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1">
+                    <!-- 페이지 1씩 이동 -->
+                    <!-- startPage : 목록 하단에 노출된 페이지의 시작 번호 -->
+                    <!-- endPage : 목록 하단에 노출된 페이지의 끝 번호 -->
+                    <c:forEach var="i" begin="${pagination.startPage}" end="${pagination.endPage}" step="1" >
+                        
                         <c:choose>
                             <c:when test="${i == pagination.currentPage}">
+                                <!-- 현재 보고있는 페이지 -->
+                                 <!-- currentPage -->
                                 <li><a class="current">${i}</a></li>
-
                             </c:when>
+
                             <c:otherwise>
-
+                                <!-- 현재 페이지를 제외한 나머지 -->
                                 <li><a href="/board/${boardCode}?cp=${i}">${i}</a></li>
-
                             </c:otherwise>
+    
+
                         </c:choose>
 
-                 </c:forEach>
-                    <!-- 현재 보고있는 페이지 -->
-                    <%-- <li><a class="current">${pagination.currentPage}</a></li> --%>
-                    
-                    <!-- 현재 페이지를 제외한 나머지 -->
-                    <%-- <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">7</a></li>
-                    <li><a href="#">8</a></li>
-                    <li><a href="#">9</a></li>
-                    <li><a href="#">10</a></li> --%>
-                    
-                    <!-- 다음 목록 시작 번호로 이동 -->
+                    </c:forEach>
+
+                    <!-- 다음 목록 시작 번호로 이동 : ' > ' -->
+                    <!-- nextPage -->
                     <li><a href="/board/${boardCode}?cp=${pagination.nextPage}">&gt;</a></li>
 
-                    <!-- 끝 페이지로 이동 -->
+                    <!-- 끝 페이지로 이동 : ' >> ' -->
+                    <!-- maxPage -->
                     <li><a href="/board/${boardCode}?cp=${pagination.maxPage}">&gt;&gt;</a></li>
 
                 </ul>
@@ -161,7 +153,7 @@
                 <select name="key" id="searchKey">
                     <option value="t">제목</option>
                     <option value="c">내용</option>
-                    <option value="tc">제목+내용</tion>
+                    <option value="tc">제목+내용</option>
                     <option value="w">작성자</option>
                 </select>
 
@@ -184,4 +176,4 @@
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
 
 </body>
-</html>3
+</html>

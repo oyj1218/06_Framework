@@ -62,7 +62,7 @@ public class BoardController {
 		// 근데 없을수도 있으니깐 required=false, 그럼 false이면 defaultValue="1"으로 해준다
 
 		// boardCode 확인
-		// System.out.println("boardCode : " + boardCode);
+		System.out.println("boardCode : " + boardCode);
 		Map<String, Object> map = service.selectBoardList(boardCode, cp);
 
 		// 조회 결과를 request scope에 세팅해서 보내주면 된다
