@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="/resources/css/member/login.css">
 
 
-    <script src="https://kit.fontawesome.com/f7459b8054.js" crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/f8b69bd1ba.js" crossorigin="anonymous"></script>
 </head>
 
 

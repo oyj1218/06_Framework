@@ -152,5 +152,32 @@
 		WHERE BOARD_NO = #{boardNo}
 		ORDER BY COMMENT_NO
 	</select>
+	
+	<!-- 좋아요 여부 조회 -->
+	<select id="boardLikeCheck" resultType="_int">
+	SELECT COUNT(*)
+	FROM BOARD_LIKE
+	WHERE BOARD_NO = #{boardNo}
+	AND MEMBER_NO = #{memberNo}
+	</select>
+	
+	<!-- 좋아요 삭제, 넣기, 개수 세기 -->
+	<delete id="likeDelete">
+		DELETE FROM BOARD_LIKE
+		WHERE BOARD_NO = #{boardNo}
+		AND MEMBER_NO = #{memberNo}
+	</delete>
 
+	<insert id="likeInsert">	
+		INSERT INTO BOARD_LIKE 
+		VALUES(#{boardNo}, #{memberNo})
+	</insert>
+	
+	<select id="likeCount" resultType="_int">
+		SELECT COUNT(*)
+		FROM BOARD_LIKE
+		WHERE BOARD_NO = #{boardNo}
+	</select>
+
+	
 </mapper>

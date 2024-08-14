@@ -31,4 +31,18 @@ public interface BoardService {
 	 */
 	Board selectBoard(Map<String, Object> map);
 
+	/**
+	 * 좋아요 조회
+	 * @param map
+	 * @return
+	 */
+	int boardLikeCheck(Map<String, Object> map);
+
+	/**
+	 * 좋아요 삭제, 넣고, 개수 세기
+	 * @param paramMap
+	 * @return
+	 */
+	int like(Map<String, Integer> paramMap);
+
 }

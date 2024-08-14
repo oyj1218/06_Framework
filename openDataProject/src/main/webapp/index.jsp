@@ -72,20 +72,27 @@
 		<button id="btn1">해당 지역 대기오염 정보</button>
 
 		<!-- <table id="result1" border="1"> -->
-		<table id="result1" style="text-align: center; background-color: rgb(57, 78, 97); color:aliceblue">
+		<table id = "result1" border = "1">
 			<thead>
 				<tr>
 					<th>측정소명</th>
+
 					<th>측정일시</th>
+
 					<th>통합대기환경수치</th>
+
 					<th>미세먼지농도</th>
-					<th>아황산가스농도</th>
+
 					<th>일산화탄소농도</th>
+
 					<th>이산화질소농도</th>
+
+					<th>아황산가스농도</th>
+
 					<th>오존농도</th>
 				</tr>
 			</thead>
-			<tbody style="background-color:aliceblue; color:rgb(48, 48, 48)">
+			<tbody>
 
 			</tbody>
 		</table>
@@ -116,10 +123,8 @@
 			</tbody>
 		</table>
 
-		공공데이터사이트에 행정안전부_지진해일 긴급대피장소 검색 후 진행
 
-
-		<h1>한국전력거래소_계통한계가격 및 수요예측</h1>
+		<!-- <h1>한국전력거래소_계통한계가격 및 수요예측</h1>
 
 		<button id="btn3">한국전력거래소 정보</button>
 		<br><br>
@@ -140,14 +145,37 @@
 			<tbody>
 
 			</tbody>
+		</table> -->
+
+		<h1>지진해일 긴급대피장소</h1>
+
+		<button id="btn4">긴급대피장소 정보</button>
+		<br><br>
+
+		<table border="1" id="result4">
+			<thead>
+				<tr>
+					<th>시도명</th>
+					<th>시군구명</th>
+					<th>대피지구명</th>
+					<th>대피장소명</th>
+					<th>주소</th>
+					<th>경도</th>
+					<th>위도</th>
+					<th>수용가능인원수</th>
+					<th>대피소 분류명</th>
+				</tr>
+			</thead>
+			<tbody class="ts-tbody">
+
+			</tbody>
 		</table>
 
 
 		<script>
 			$("#btn1").click(function () {
-				/* 응답 데이터를 json 형태로 받을 때
 					$.ajax({ 
-					url: "air", // 주소는 내 마음대로 정할 수 있다
+					url: "air.do", // 주소는 내 마음대로 정할 수 있다
 					data: { location: $("#location").val() },
 					success: function (result) {
 
@@ -160,72 +188,111 @@
 								+ "<td>" + item.dataTime + "</td>"
 								+ "<td>" + item.khaiValue + "</td>"
 								+ "<td>" + item.pm10Value + "</td>"
-								+ "<td>" + item.so2Value + "</td>"
 								+ "<td>" + item.coValue + "</td>"
 								+ "<td>" + item.no2Value + "</td>"
+								+ "<td>" + item.so2Value + "</td>"
 								+ "<td>" + item.o3Value + "</td>"
 							+ "</tr>"
-
 						}
 						$("#result1 > tbody").html(value);
 								
 					},
 					error: function () { console.log("통신 실패") }
-				}) */
+				})
 
 				// -----------------------------------------
 
 				// 응답 데이터를 xml 형식으로 받을 때
 
-				$.ajax({
-					url: "air", // 주소는 내 마음대로 정할 수 있다
-					data: { location: $("#location").val() },
-					success: function (result) {
-						console.log(result);
+				// $.ajax({
+				// 	url: "air.do", // 주소는 내 마음대로 정할 수 있다
+				// 	data: { location: $("#location").val() },
+				// 	success: function (result) {
+				// 		// console.log(result);
 
-						// $('요소명').find(매개변수)
-						// - 기준이 되는 요소의 하위 요소들 중 특정 요소를 찾을 때 사용
-						// - html, xml은 같은 markup language이기 때문에 사용 가능하다
-						// console.log($(result).find("item"))D
+				// 		// $('요소명').find(매개변수)
+				// 		// - 기준이 되는 요소의 하위 요소들 중 특정 요소를 찾을 때 사용
+				// 		// - html, xml은 같은 markup language이기 때문에 사용 가능하다
+				// 		// console.log($(result).find("item"))D
 
-						// xml 형식의 응답데이터를 받았을 때
-						// 1. 넘겨받은 데이터를 $() 제이쿼리화 시킨 후
-						// 응답데이터 안에 실제 데이터가 담겨있는 요소 선택
-						const itemArr = $(result).find("item");
-						let value = "";
-						// 2. 반복문을 통해 실제 데이터가 담긴 요소들에 접근해서 동적으로 요소 만들면 된다
-						itemArr.each(function (index, item) {
-							// console.log(index + "번째 : " + item)
+				// 		// xml 형식의 응답데이터를 받았을 때
+				// 		// 1. 넘겨받은 데이터를 $() 제이쿼리화 시킨 후
+				// 		// 응답데이터 안에 실제 데이터가 담겨있는 요소 선택
+				// 		const itemArr = $(result).find("item");
+				// 		let value = "";
+				// 		// 2. 반복문을 통해 실제 데이터가 담긴 요소들에 접근해서 동적으로 요소 만들면 된다
+				// 		itemArr.each(function (index, item) {
+				// 			// console.log(index + "번째 : " + item)
 
-							// console.log($(item).find("stationName").text())
+				// 			// console.log($(item).find("stationName").text())
+				// 			value += "<tr>"
+				// 				+ "<td>" + $(item).find("stationName").text() + "</td>"
+				// 				+ "<td>" + $(item).find("dataTime").text() + "</td>"
+				// 				+ "<td>" + $(item).find("khaiValue").text() + "</td>"
+				// 				+ "<td>" + $(item).find("pm10Value").text() + "</td>"
+				// 				+ "<td>" + $(item).find("coValue").text() + "</td>"
+				// 				+ "<td>" + $(item).find("no2Value").text() + "</td>"
+				// 				+ "<td>" + $(item).find("so2Value").text() + "</td>"
+				// 				+ "<td>" + $(item).find("o3Value").text() + "</td>"
+				// 				+ "</tr>"
+				// 		})
 
-							value += "<tr>"
-								+ "<td>" + $(item).find("stationName").text() + "</td>"
-								+ "<td>" + $(item).find("dataTime").text() + "</td>"
-								+ "<td>" + $(item).find("khaiValue").text() + "</td>"
-								+ "<td>" + $(item).find("pm10Value").text() + "</td>"
-								+ "<td>" + $(item).find("so2Value").text() + "</td>"
-								+ "<td>" + $(item).find("coValue").text() + "</td>"
-								+ "<td>" + $(item).find("no2Value").text() + "</td>"
-								+ "<td>" + $(item).find("o3Value").text() + "</td>"
-								+ "</tr>"
-						})
+				// 		// 3. 동적으로 만들어낸 요소를 화면에 출력
+				// 		$('#result1 > tbody').html(value);
 
-						// 3. 동적으로 만들어낸 요소를 화면에 출력
-						$('#result1 > tbody').html(value);
+				// 	},
 
-					},
+				// 	error: function () {
+				// 		console.log("통신 실패");
+				// 	}
 
-					error: function () {
-						console.log("통신 실패");
-					}
-
-				}) // ajax 끝
+				// }) // ajax 끝
 
 			})
 
+			// $("#btn2").click(function () {
+			// 	// 응답 데이터를 xml 형식으로 받을 때
+			// 	// https://www.data.go.kr/data/3058512/openapi.do
+			// 	$.ajax({
+			// 		url: "tsunamiShelter", // 주소는 내 마음대로 정할 수 있다
+			// 		success: function (result) {
+			// 			console.log(result);
+			// 			// console.log($(row).find("sido_name").text())
+
+
+			// 			const tsunamiShelterArr = $(result).find("row");
+			// 			let value = "";
+			// 			// 2. 반복문을 통해 실제 데이터가 담긴 요소들에 접근해서 동적으로 요소 만들면 된다
+			// 			tsunamiShelterArr.each(function (index, row) {
+			// 				value += "<tr>"
+
+			// 					+ "<td>" + $(row).find("sido_name").text() + "</td>"
+			// 					+ "<td>" + $(row).find("sigungu_name").text() + "</td>"
+			// 					+ "<td>" + $(row).find("remarks").text() + "</td>"
+			// 					+ "<td>" + $(row).find("shel_nm").text() + "</td>"
+			// 					+ "<td>" + $(row).find("address").text() + "</td>"
+			// 					+ "<td>" + $(row).find("lon").text() + "</td>"
+			// 					+ "<td>" + $(row).find("lat").text() + "</td>"
+			// 					+ "<td>" + $(row).find("shel_av").text() + "</td>"
+			// 					+ "<td>" + $(row).find("shel_div_type").text() + "</td>"
+			// 					+ "</tr>"
+			// 			})
+
+			// 			// 3. 동적으로 만들어낸 요소를 화면에 출력
+			// 			$('#result2 > tbody').html(value);
+
+			// 		},
+
+			// 		error: function () {
+			// 			console.log("통신 실패");
+			// 		}
+
+			// 	})
+			// })
+
+
 			$("#btn2").click(function () {
-				// 응답 데이터를 xml 형식으로 받을 때
+				// 응답 데이터를 json 형식으로 받을 때
 				// https://www.data.go.kr/data/3058512/openapi.do
 				$.ajax({
 					url: "tsunamiShelter", // 주소는 내 마음대로 정할 수 있다
@@ -234,23 +301,25 @@
 						// console.log($(row).find("sido_name").text())
 
 
-						const tsunamiShelterArr = $(result).find("row");
+						const rowArr = result.TsunamiShelter[1].row;
+
+						console.log(rowArr)
 						let value = "";
 						// 2. 반복문을 통해 실제 데이터가 담긴 요소들에 접근해서 동적으로 요소 만들면 된다
-						tsunamiShelterArr.each(function (index, row) {
+						for (let row of rowArr) {
 							value += "<tr>"
 
-								+ "<td>" + $(row).find("sido_name").text() + "</td>"
-								+ "<td>" + $(row).find("sigungu_name").text() + "</td>"
-								+ "<td>" + $(row).find("remarks").text() + "</td>"
-								+ "<td>" + $(row).find("shel_nm").text() + "</td>"
-								+ "<td>" + $(row).find("address").text() + "</td>"
-								+ "<td>" + $(row).find("lon").text() + "</td>"
-								+ "<td>" + $(row).find("lat").text() + "</td>"
-								+ "<td>" + $(row).find("shel_av").text() + "</td>"
-								+ "<td>" + $(row).find("shel_div_type").text() + "</td>"
+								+ "<td>" + row.sido_name + "</td>"
+								+ "<td>" + row.sigungu_name + "</td>"
+								+ "<td>" + row.remarks + "</td>"
+								+ "<td>" + row.shel_nm + "</td>"
+								+ "<td>" + row.address + "</td>"
+								+ "<td>" + row.lon + "</td>"
+								+ "<td>" + row.lat + "</td>"
+								+ "<td>" + row.shel_av + "</td>"
+								+ "<td>" + row.shel_div_type + "</td>"
 								+ "</tr>"
-						})
+						}
 
 						// 3. 동적으로 만들어낸 요소를 화면에 출력
 						$('#result2 > tbody').html(value);
@@ -279,7 +348,7 @@
 			// 			const xmlDoc = parser.parseFromString(result, "text/xml");
 			// 			const tsunamiShelterArr = xmlDoc.getElementsByTagName("row");
 			// 			let value = "";
-						
+
 			// 			// 반복문을 통해 데이터 요소들에 접근합니다.
 			// 			for (let i = 0; i < tsunamiShelterArr.length; i++) {
 			// 				const row = tsunamiShelterArr[i];
@@ -307,29 +376,61 @@
 
 			// xml로 풀어보기
 			// https://www.data.go.kr/data/15131225/openapi.do#tab_layer_detail_function
+			// $("#btn3").click(function () {
+			// 	$.ajax({
+			// 		url: "smpPredict", // 주소는 내 마음대로 정할 수 있다
+			// 		success: function (result) {
+			// 			console.log(result);
+			// 			// console.log($(row).find("sido_name").text())
+
+
+			// 			const smpPredictArr = $(result).find("item");
+			// 			let value = "";
+			// 			smpPredictArr.each(function (index, item) {
+			// 				value += "<tr>"
+			// 					+ "<td>" + $(item).find("date").text() + "</td>"
+			// 					+ "<td>" + $(item).find("hour").text() + "</td>"
+			// 					+ "<td>" + $(item).find("areaName").text() + "</td>"
+			// 					+ "<td>" + $(item).find("smp").text() + "</td>"
+			// 					+ "<td>" + $(item).find("mlfd").text() + "</td>"
+			// 					+ "<td>" + $(item).find("jlfd").text() + "</td>"
+			// 					+ "<td>" + $(item).find("slfd").text() + "</td>"
+			// 					+ "<td>" + $(item).find("rn").text() + "</td>"
+			// 					+ "</tr>"
+
+			// 			})
+			// 			$('#result3 > tbody').html(value);
+			// 		},
+			// 		error: function () {
+			// 			console.log("통신 실패");
+			// 		}
+
+			// 	})
+
+			// })
+
 			$("#btn3").click(function () {
 				$.ajax({
 					url: "smpPredict", // 주소는 내 마음대로 정할 수 있다
 					success: function (result) {
 						console.log(result);
-						// console.log($(row).find("sido_name").text())
 
-
-						const smpPredictArr = $(result).find("item");
+						const smpPredictArr = result.response.body.items;
+						console.log(result.response.body.items);
 						let value = "";
-						smpPredictArr.each(function (index, item) {
+						for (let item of smpPredictArr) {
 							value += "<tr>"
-								+ "<td>" + $(item).find("date").text() + "</td>"
-								+ "<td>" + $(item).find("hour").text() + "</td>"
-								+ "<td>" + $(item).find("areaName").text() + "</td>"
-								+ "<td>" + $(item).find("smp").text() + "</td>"
-								+ "<td>" + $(item).find("mlfd").text() + "</td>"
-								+ "<td>" + $(item).find("jlfd").text() + "</td>"
-								+ "<td>" + $(item).find("slfd").text() + "</td>"
-								+ "<td>" + $(item).find("rn").text() + "</td>"
+								+ "<td>" + item.date + "</td>"
+								+ "<td>" + item.hour + "</td>"
+								+ "<td>" + item.areaName + "</td>"
+								+ "<td>" + item.smp + "</td>"
+								+ "<td>" + item.mlfd + "</td>"
+								+ "<td>" + item.jlfd + "</td>"
+								+ "<td>" + item.slfd + "</td>"
+								+ "<td>" + item.rn + "</td>"
 								+ "</tr>"
 
-						})
+						}
 						$('#result3 > tbody').html(value);
 					},
 					error: function () {

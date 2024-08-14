@@ -70,11 +70,40 @@ public class BoardDAO {
 	}
 	
 
-	/** 좋아요 조회
-	 * 
+	/**
+	 * 좋아요 조회
+	 * @param map
+	 * @return
 	 */
-	public Board selectImageList(Map<String, Object> map) {
-		return sqlSession.selectOne("boardMapper.selectImageList", map);
+	public int boardLikeCheck(Map<String, Object> map) {
+		return sqlSession.selectOne("boardMapper.boardLikeCheck", map);
+	}
+
+	/**
+	 * 좋아요 삭제
+	 * @param paramMap
+	 * @return result
+	 */
+	public int likeDelete(Map<String, Integer> paramMap) {
+		return sqlSession.delete("boardMapper.likeDelete", paramMap);
+	}
+	
+	/**
+	 * 좋아요 넣기
+	 * @param paramMap
+	 * @return result
+	 */
+	public int likeInsert(Map<String, Integer> paramMap) {
+		return sqlSession.insert("boardMapper.likeInsert", paramMap);
+	}
+	
+	/**
+	 * 좋아요 개수 세기
+	 * @param integer
+	 * @return result
+	 */
+	public int likeCount(Integer boardNo) {
+		return sqlSession.selectOne("boardMapper.likeCount", boardNo);
 	}
 
 	
