@@ -48,4 +48,11 @@
 		<!-- AND MEMBER_PW = #{memberPw} -->
 	</update>
 	
+	<!-- 프로필 이미지 수정 -->
+	<update id="updateProfile">
+		UPDATE MEMBER
+		SET PROFILE_IMG = #{profileImg}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
 </mapper>
