@@ -168,6 +168,7 @@ a:hover {
     max-width: 50px;
     left: -15px;
     top: 17px;
+    border-radius: 100px;
 }
 
 .list-table tr > td:nth-of-type(2){
@@ -242,3 +243,10 @@ a:hover {
 }
 
 
+.searchResult{
+	margin: 50px 0px;
+    background: rgb(2,0,36);
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(9,9,121,0.7994707514186801) 35%, rgba(0,212,255,1) 100%);
+    padding: 30px 0px;
+    color: white;
+}

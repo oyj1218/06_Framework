@@ -188,15 +188,21 @@
 
         // 게시글 번호 변수로 선언
         const boardNo = "${board.boardNo}";
-        console.log(boardNo);
+        // console.log(boardNo);
 
         // 로그인한 회원 번호 변수로 선언
         const loginMemberNo = "${loginMember.memberNo}";
-        console.log(loginMemberNo);
+        // console.log(loginMemberNo);
+
+        const boardCode = "${boardCode}";
+        console.log(boardNo);
 
     </script>
 
     <script src="/resources/js/board/boardDetail.js"></script>
+
+    <script src="/resources/js/board/comment.js"></script>
+
 
 
 </body>

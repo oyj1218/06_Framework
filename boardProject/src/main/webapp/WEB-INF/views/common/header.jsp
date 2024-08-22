@@ -29,7 +29,7 @@
                 - POST : input태그 값을 주소에 담지 않고 제출(주소에 안보임)
                         -> HTTP Body에 담아서 제출
             -->
-            <form action="#" method="GET">
+            <form action="/board/1" method="GET">
 
                 <fieldset> <!-- form태그 내 영역 구분 -->
 
@@ -41,7 +41,10 @@
                     -->
                     <input type="search" name="query" id="query"
                     placeholder="검색어를 입력해주세요."
-                    autocomplete="off">
+                    autocomplete="off" value="${param.query}">
+
+                    <%-- 제목 검색 --%>
+                    <input type="hidden" name="key" value="t">
 
                     <!-- 검색 버튼 -->
                     <!-- button type="submit" 이 기본값 -->
@@ -50,6 +53,9 @@
                 </fieldset>
 
             </form>
+
+            <%-- 검색어 자동완성이 보여질 구역 --%>
+            <div id="autoComplete"></div>
 
         </article>
 
@@ -109,3 +115,36 @@
 
    	
 </nav>
+
+<script>
+const autoDisplayList = document.getElementById("autoDisplayList");
+const input = document.getElementById('query');
+
+input.addEventListener('input', ()=>{
+    const query = input.value;
+
+    if(query.length < 2){
+        autoDisplayList.style.display = 'none';
+        autoDisplayList.innerHTML = '';
+        return
+    }
+
+    fetch("/board/search")
+    .then(response => response.json())
+    .then(data => {
+        if (data.length === 0) {
+            autoDisplayList.style.display = 'none';
+            autoDisplayList.innerHTML = '';
+            return;
+        }
+
+        autoDisplayList.style.display = 'block';
+        autoDisplayList.innerHTML = data.map(item => `<div class="autoDisplayList">${item}</div>`).join('');
+    })
+    .catch(err => console.log(err))
+
+
+})
+
+
+</script>

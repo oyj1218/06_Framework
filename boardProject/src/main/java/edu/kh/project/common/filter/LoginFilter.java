@@ -19,19 +19,19 @@ import edu.kh.project.member.model.dto.Member;
 // 돌아올 때도 사용할 순 있지만 경우가 적기에 할 수만 있는걸로 기억하자
 
 // @WebFilter : 해당 클래스를 필터로 등록하고 지정된 주소로 요청이 올 때 마다 동작
-@WebFilter(filterName = "loginFilter", urlPatterns= "/myPage/*")
+@WebFilter(filterName = "loginFilter", urlPatterns= {"/myPage/*", "/board2/*"})
 public class LoginFilter implements Filter {
 	public void init(FilterConfig fConfig) throws ServletException {
 		// 서버가 켜질 때, 필터 코드가 변경 되었을 때 필터가 생성됨
 		// -> 생성 시 초기화 용도로 사용하는 메소드
-		System.out.println("--- 르그인 필터 생성 ---");
+		System.out.println("-!-!- 르그인 필터 생성 -!-!-");
 	}
 	
 
 	public void destroy() {
 		// 필터 코드가 변경되었을 때
 		// 변경 이전 필터를 파괴하는 메소드
-		System.out.println("--- 이전 로그인 필터 파괴 ---");
+		System.out.println("-!-!- 이전 로그인 필터 파괴 -!-!-");
 	}
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

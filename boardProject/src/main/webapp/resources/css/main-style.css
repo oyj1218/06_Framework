@@ -431,3 +431,7 @@ a{
     margin: 0;
     color : gray;
 }
+
+#autoDisplayList{
+    display: none;
+}
