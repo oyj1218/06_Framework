@@ -61,6 +61,16 @@ public interface BoardService {
 	Map<String, Object> selectBoardList(Map<String, Object> paramMap, int cp);
 
 	
+	/**
+	 * 자동완성
+	 * @param query
+	 * @return
+	 */
+	List<Board> searchAutoComplete(String query);
+
+	
+
+	
 
 	
 }

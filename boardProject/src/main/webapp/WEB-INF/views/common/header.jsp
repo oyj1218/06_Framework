@@ -6,6 +6,7 @@
 <!-- font awesome 라이브러리 추가 + key 등록 -->
 <script src="https://kit.fontawesome.com/f8b69bd1ba.js" crossorigin="anonymous"></script>
 
+<link rel="stylesheet" href="/resources/css/header-style.css">
 
 <header>
     <section>
@@ -16,7 +17,7 @@
     </section>
 
 
-    <section>
+    <section class="search-content">
         <!-- 검색어 입력할 수 있는 요소 배치 -->
 
         <article class="search-area">
@@ -55,8 +56,9 @@
             </form>
 
             <%-- 검색어 자동완성이 보여질 구역 --%>
-            <div id="autoComplete"></div>
-
+            <!--  --><ul id="autoComplete"></ul>
+            <!-- board/1/3116?cp=1 -->
+            
         </article>
 
     </section>
@@ -115,36 +117,48 @@
 
    	
 </nav>
-
 <script>
-const autoDisplayList = document.getElementById("autoDisplayList");
-const input = document.getElementById('query');
 
-input.addEventListener('input', ()=>{
-    const query = input.value;
+const autoComplete = document.getElementById("autoComplete");
+const input = document.getElementById("query");
 
-    if(query.length < 2){
-        autoDisplayList.style.display = 'none';
-        autoDisplayList.innerHTML = '';
-        return
-    }
+input.addEventListener("input", () => {
 
-    fetch("/board/search")
-    .then(response => response.json())
-    .then(data => {
-        if (data.length === 0) {
-            autoDisplayList.style.display = 'none';
-            autoDisplayList.innerHTML = '';
-            return;
-        }
-
-        autoDisplayList.style.display = 'block';
-        autoDisplayList.innerHTML = data.map(item => `<div class="autoDisplayList">${item}</div>`).join('');
+    fetch("/board/searchAutoComplete", {
+        method: "POST",
+        headers: { "Content-Type": "application/text" },
+        body: input.value // JS 객체 -> JSON 파싱
     })
-    .catch(err => console.log(err))
+        .then(response => response.json())
+        .then(data => {
+            autoComplete.innerHTML = "";
+            autoComplete.style.display = 'block';
+            autoComplete.hidden = false;
+            console.log(data)
+            if (data.length > 0) {
+                data.forEach(item => {
+                    const li = document.createElement("li");
+                    li.classList.add("autocomplete-item");
+                    const a = document.createElement("a");
+                    a.innerText = item.boardName + " - " + item.boardTitle;
+                    a.setAttribute("href", `/board/\${item.boardCode}/\${item.boardNo}`);
+                    li.append(a);
+                    autoComplete.append(li);
+                });
+            } else {
+                const div = document.createElement("div");
+                div.classList.add("autocomplete-item");
+                div.innerText = "검색 결과가 없습니다.";
+                autoComplete.appendChild(div);
+            }
+        })
+        .catch(e => {
+            console.log("예외 발생");
+            console.log(e);
+        })
 
-
-})
+    
+});
 
 
 </script>

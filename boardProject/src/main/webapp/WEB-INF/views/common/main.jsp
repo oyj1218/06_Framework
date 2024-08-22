@@ -90,8 +90,8 @@
                             <fieldset class="id-pw-area">
                                 <section>
                                     <input type="text" name="memberEmail" placeholder="이메일" autocomplete="off"
-                                           value="${cookie.saveId.value}">
-                                    <input type="password" name="memberPw" placeholder="비밀번호">                  
+                                           value="${cookie.saveId.value}" id="memberEmail">
+                                    <input type="password" name="memberPw" placeholder="비밀번호" id="memberPw">                  
                                 </section>
                                 <section>
                                     <button>로그인</button>
@@ -170,9 +170,6 @@
 
     <%-- footer --%>
     <jsp:include page="/WEB-INF/views/common/footer.jsp"/>
-
-    <%-- main.js 추가 --%>
-    <script src="/resources/js/main.js"></script>
 
 </body>
 </html>

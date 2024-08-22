@@ -1,7 +1,7 @@
 const loginFrm = document.getElementById("loginFrm");
 
-const memberEmail = document.querySelector("#loginFrm input[name='memberEmail']");
-const memberPw = document.querySelector("#loginFrm input[name='memberPw']");
+const memberEmail = document.querySelector("#memberEmail");
+const memberPw = document.querySelector("#memberPw");
 
 
 if(loginFrm != null){

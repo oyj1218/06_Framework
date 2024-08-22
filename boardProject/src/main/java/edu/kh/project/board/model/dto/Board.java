@@ -20,6 +20,8 @@ public class Board {
 	   private int readCount;
 	   private int boardCode;
 	   
+	   private String boardName;
+	   
 	   // 서브쿼리
 	   private int commentCount; // 댓글 수
 	   private int likeCount;    // 좋아요 수

@@ -124,4 +124,14 @@ public class BoardServiceImpl implements BoardService {
 		return map;
 	}
 
+	/**
+	 * 자동완성
+	 */
+	@Override
+	public List<Board> searchAutoComplete(String query) {
+		return dao.autoComplete(query);
+	}
+	
+
+
 }

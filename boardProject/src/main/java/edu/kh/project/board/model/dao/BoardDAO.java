@@ -149,7 +149,19 @@ public class BoardDAO {
 		// return sqlSession.selectList("boardMapper.selectBoardList", boardCode, rowBounds);
 		return sqlSession.selectList("boardMapper.selectBoardListForSearch", paramMap, rowBounds);
 	}
-	
+
+	/**
+	 * 
+	 * @param query
+	 * @return
+	 */
+
+	public List<Board> autoComplete(String query) {
+		RowBounds rowBounds = new RowBounds(0, 5);
+		return sqlSession.selectList("boardMapper.searchAutoComplete", query, rowBounds);
+	}
+		
+
 
 
 

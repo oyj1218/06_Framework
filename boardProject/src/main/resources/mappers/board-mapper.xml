@@ -15,6 +15,11 @@
 		<result property="commentCount" column="COMMENT_COUNT" />
 		<result property="likeCount" column="LIKE_COUNT" />
 		<result property="memberNickname" column="MEMBER_NICKNAME" />
+		
+		
+		<result property="boardCode" column="BOARD_CODE"/>
+		<result property="boardName" column="BOARD_NAME"/>
+
 
 		<result property="memberNo" column="MEMBER_NO" />
 		<result property="profileImage" column="PROFILE_IMG" />
@@ -393,12 +398,15 @@
 	</select>
 	
 	<!-- 자동완성 -->
-	<select id="searchList" resultType="String">
-		<choose>
-			<when test="searchType">
-			</when>
-		</choose>
-	</select>
-	
-	
+	<select id="searchAutoComplete" resultMap="board_rm">
+		SELECT BOARD_NO, BOARD_TITLE, BOARD_CODE, BOARD_NAME
+		FROM BOARD
+		JOIN BOARD_TYPE USING(BOARD_CODE)
+		WHERE BOARD_DEL_FL = 'N'
+		AND BOARD_TITLE LIKE '%${query}%'
+		ORDER BY BOARD_NO DESC		
+    </select>
+    
+    
+    
 </mapper>
