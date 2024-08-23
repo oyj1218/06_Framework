@@ -123,6 +123,10 @@ const autoComplete = document.getElementById("autoComplete");
 const input = document.getElementById("query");
 
 input.addEventListener("input", () => {
+    if (input.value.trim() == "") {
+        autoComplete.hidden = true;
+        return;
+    }
 
     fetch("/board/searchAutoComplete", {
         method: "POST",
@@ -132,7 +136,6 @@ input.addEventListener("input", () => {
         .then(response => response.json())
         .then(data => {
             autoComplete.innerHTML = "";
-            autoComplete.style.display = 'block';
             autoComplete.hidden = false;
             console.log(data)
             if (data.length > 0) {

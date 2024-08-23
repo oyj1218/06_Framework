@@ -131,6 +131,14 @@ public class BoardServiceImpl implements BoardService {
 	public List<Board> searchAutoComplete(String query) {
 		return dao.autoComplete(query);
 	}
+
+	/**
+	 * DB 이미지 파일 조회
+	 */
+	@Override
+	public List<String> imageList() {
+		return dao.imageList();
+	}
 	
 
 

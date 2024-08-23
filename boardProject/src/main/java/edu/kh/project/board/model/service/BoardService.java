@@ -68,6 +68,12 @@ public interface BoardService {
 	 */
 	List<Board> searchAutoComplete(String query);
 
+	/**
+	 * DB 이미지 파일 조회
+	 * @return list
+	 */
+	List<String> imageList();
+
 	
 
 	

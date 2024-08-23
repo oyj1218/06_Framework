@@ -151,7 +151,7 @@ public class BoardDAO {
 	}
 
 	/**
-	 * 
+	 * 자동완성
 	 * @param query
 	 * @return
 	 */
@@ -160,6 +160,15 @@ public class BoardDAO {
 		RowBounds rowBounds = new RowBounds(0, 5);
 		return sqlSession.selectList("boardMapper.searchAutoComplete", query, rowBounds);
 	}
+
+	/**
+	 * 이미지 파일 조회
+	 * @return
+	 */
+	public List<String> imageList() {
+		return sqlSession.selectList("boardMapper.imageList");
+	}
+		
 		
 
 
