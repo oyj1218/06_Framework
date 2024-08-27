@@ -112,18 +112,21 @@
        	<a href="/board/${boardType.BOARD_CODE}">${boardType.BOARD_NAME}</a>
        </li>
    	</c:forEach>
+
+    <%-- 로그인 했을 때 채팅 보여짐 --%>
+    <c:if test="${!empty loginMember}">
+        <li><a href="/chatting">채팅</a></li>
+    </c:if>
     </ul>
     
-
-   	
 </nav>
 <script>
 
 const autoComplete = document.getElementById("autoComplete");
-const input = document.getElementById("query");
+const query = document.getElementById("query");
 
-input.addEventListener("input", () => {
-    if (input.value.trim() == "") {
+query.addEventListener("input", () => {
+    if (query.value.trim() == "") {
         autoComplete.hidden = true;
         return;
     }
@@ -131,7 +134,7 @@ input.addEventListener("input", () => {
     fetch("/board/searchAutoComplete", {
         method: "POST",
         headers: { "Content-Type": "application/text" },
-        body: input.value // JS 객체 -> JSON 파싱
+        body: query.value // JS 객체 -> JSON 파싱
     })
         .then(response => response.json())
         .then(data => {
@@ -161,6 +164,14 @@ input.addEventListener("input", () => {
         })
 
     
+});
+document.addEventListener("click", (event) => {
+    const isClickInsideInput = query.contains(event.target);
+    const isClickInsideAutoComplete = autoComplete.contains(event.target);
+
+    if (!isClickInsideInput && !isClickInsideAutoComplete) {
+        autoComplete.hidden = true;
+    }
 });
 
 
